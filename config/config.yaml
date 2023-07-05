@@ -1,0 +1,54 @@
+# Input Data
+data:
+  source_cloud_path: 'KITTI/2011_09_26/2011_09_26_drive_0011_sync/velodyne_points/data/pcd/0000000000.pcd'
+  target_cloud_path: 'KITTI/2011_09_26/2011_09_26_drive_0011_sync/velodyne_points/data/pcd/0000000002.pcd'
+  format: 'auto' # Format for open3d.io.read_point_cloud() or KITTI for bin format, and tum for TUM dataset
+  voxel_downsample: True # Perform voxel downsampling for ICP
+  voxel_size: 0.6 # Size for voxel downsampling
+bayes_opt:
+  #General
+  #Type: rotation only (rotation), translation only(translation), combined (all), rotation than translation=(separate)
+  type: separate
+  #Initial Random Guesses
+  init_count: 20
+  #Number of iterations
+  num_iter: 35
+  #parameter bounds (set based on size between the point clouds)
+  parameter_bounds:
+    x:
+    - -4.0
+    - 4.0
+    y:
+    - -2.0
+    - 2.0
+    z:
+    - -1.0
+    - 1.0
+    roll:
+    - -3.1416
+    - 3.1416
+    pitch:
+    - -3.1416
+    - 3.1416
+    yaw:
+    - -3.1416
+    - 3.1416
+  #Acquisition function (Upper confidence bound (ucb))
+  acq: ei
+  #Error metric
+  error_metric: 'distance'
+  #Upper confidence Bound
+  kappa: 0.1
+  #Expected Improvement
+  xi: 1.0e-4
+  #Probablity of Improvement
+  alpha: 1.0e-5
+icp:
+  # ICP parameters see for details:
+  # http://www.open3d.org/docs/latest/python_api/open3d.t.pipelines.registration.TransformationEstimationPointToPoint.html)
+  threshold: 0.02
+  max_iterations: 10000
+  relative_fitness: 1.0e-10
+  relative_rmse: 1.0e-10
+
+
